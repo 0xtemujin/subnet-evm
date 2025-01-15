@@ -45,7 +45,7 @@ func main() {
 		log.Fatalf("failed to fetch network ID: %s\n", err)
 	}
 
-	validatorUptime, err := messages.NewValidatorUptime(validationID, reqUptime)
+	validatorUptime, err := messages.NewValidatorUptime(validationID, reqUptime, uint64(time.Now().Unix()))
 	if err != nil {
 		log.Fatalf("failed to create validatorUptime message: %s\n", err)
 	}

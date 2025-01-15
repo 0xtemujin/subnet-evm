@@ -14,15 +14,17 @@ import (
 type ValidatorUptime struct {
 	ValidationID ids.ID `serialize:"true"`
 	TotalUptime  uint64 `serialize:"true"` // in seconds
+	Timestamp    uint64 `serialize:"true"` // Unix timestamp in seconds
 
 	bytes []byte
 }
 
 // NewValidatorUptime creates a new *ValidatorUptime and initializes it.
-func NewValidatorUptime(validationID ids.ID, totalUptime uint64) (*ValidatorUptime, error) {
+func NewValidatorUptime(validationID ids.ID, totalUptime uint64, timestamp uint64) (*ValidatorUptime, error) {
 	bhp := &ValidatorUptime{
 		ValidationID: validationID,
 		TotalUptime:  totalUptime,
+		Timestamp:    timestamp,
 	}
 	return bhp, initialize(bhp)
 }

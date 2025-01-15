@@ -267,7 +267,7 @@ func TestUptimeSignatures(t *testing.T) {
 	warpSigner := avalancheWarp.NewSigner(blsSecretKey, snowCtx.NetworkID, snowCtx.ChainID)
 
 	getUptimeMessageBytes := func(sourceAddress []byte, vID ids.ID, totalUptime uint64) ([]byte, *avalancheWarp.UnsignedMessage) {
-		uptimePayload, err := messages.NewValidatorUptime(vID, 80)
+		uptimePayload, err := messages.NewValidatorUptime(vID, 80, uint64(time.Now().Unix()))
 		require.NoError(t, err)
 		addressedCall, err := payload.NewAddressedCall(sourceAddress, uptimePayload.Bytes())
 		require.NoError(t, err)

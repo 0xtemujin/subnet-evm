@@ -6,6 +6,7 @@ package warp
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/ava-labs/subnet-evm/warp/messages"
 
@@ -124,6 +125,15 @@ func (b *backend) verifyUptimeMessage(uptimeMsg *messages.ValidatorUptime) *comm
 		return &common.AppError{
 			Code:    VerifyErrCode,
 			Message: fmt.Sprintf("current uptime %d is less than queried uptime %d for nodeID %s", currentUptimeSeconds, uptimeMsg.TotalUptime, vdr.NodeID),
+		}
+	}
+
+	// Verify timestamp is within acceptable range (e.g., within last hour)
+	now := uint64(time.Now().Unix())
+	if uptimeMsg.Timestamp > now || now-uptimeMsg.Timestamp > 3600 {
+		return &common.AppError{
+			Code:    VerifyErrCode,
+			Message: fmt.Sprintf("timestamp %d is outside acceptable range", uptimeMsg.Timestamp),
 		}
 	}
 
